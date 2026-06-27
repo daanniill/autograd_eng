@@ -2,7 +2,6 @@
 import random
 from engine import Value
 
-# defining a neuron class
 class Neuron:
 
     def __init__(self, nin):
@@ -17,7 +16,6 @@ class Neuron:
         out = act.tanh()
         return out
 
-# defining a layer of neurons
 class Layer:
 
     def __init__(self, nin, nout):
@@ -25,4 +23,17 @@ class Layer:
     
     def __call__(self, x): # defines behavior for when Layer object is called, returns list of neurons in layer
         outs = [n(x) for n in self.neurons] 
-        return outs
+        return outs[0] if len(outs) == 1 else outs
+
+class MLP:
+
+    # in this case, nouts is a list of the sizes of each individual layer that we will want in our mlp
+    def __init__(self, nin, nouts):
+        sz = [nin] + nouts # creates a new list of the full mlp ex: 3 inputs, [4, 4, 1] outputs => MLP: [3, 4, 4, 1]
+        self.layers = [Layer(sz[i], sz[i+1]) for i in range(len(nouts))] # creates a layer for each element in size list
+
+    # returns the final layer, or output, of the mlp
+    def __call__(self, x):
+        for layer in self.layers:
+            x = layer(x)
+        return x

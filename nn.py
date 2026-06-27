@@ -16,3 +16,13 @@ class Neuron:
         act = sum(wi*xi for wi, xi, in zip(self.w, x)) + self.b
         out = act.tanh()
         return out
+
+# defining a layer of neurons
+class Layer:
+
+    def __init__(self, nin, nout):
+        self.neurons = [Neuron(nin) for _ in range(nout)] # define a layer of neurons based on the number of inputs coming into this layer and how many neurons we want to output to the next layer (nout)
+    
+    def __call__(self, x): # defines behavior for when Layer object is called, returns list of neurons in layer
+        outs = [n(x) for n in self.neurons] 
+        return outs

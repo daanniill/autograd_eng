@@ -31,7 +31,7 @@ class Value:
         out = Value(self.data * other.data, (self, other), '*')
         
         def _backward():
-            self.grad = other.grad * out.grad
+            self.grad = other.data * out.grad
             other.grad = self.data * out.grad
         out._backward = _backward
         
@@ -51,3 +51,19 @@ class Value:
         out._backward = _backward
         
         return out
+
+    # automatically runs backpropogation starting from node on all children
+    def backward(self):
+        topo = []
+        visited = set()
+        def build_topo(v):
+          if v not in visited:
+            visited.add(v)
+            for child in v._prev:
+              build_topo(child)
+            topo.append(v)
+        build_topo(self)
+
+        self.grad = 1.0
+        for node in reversed(topo):
+            node._backward()

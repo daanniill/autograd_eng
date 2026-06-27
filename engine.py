@@ -30,6 +30,12 @@ class Value:
     def __radd__(self, other): # other + self
         return self + other
 
+    # implementing subtraction
+    def __neg__(self): # -self
+        return self * -1
+    def __sub__(self, other): # self - other
+        return self + (-other)
+    
     # defining multiplication of Value objects
     def __mul__(self, other):
         other = other if isinstance(other, Value) else Value(other) # if other is an int or float wrap it in a Value object so we can perform operation

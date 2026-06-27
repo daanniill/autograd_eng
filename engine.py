@@ -17,6 +17,7 @@ class Value:
 
     # defining addition of Value objects
     def __add__(self, other):
+        other = other if isinstance(other, Value) else Value(other) # if other is an int or float wrap it in a Value object so we can perform operation 
         out = Value(self.data + other.data, (self, other), '+')
         
         def _backward():
@@ -28,6 +29,7 @@ class Value:
 
     # defining multiplication of Value objects
     def __mul__(self, other):
+        other = other if isinstance(other, Value) else Value(other) # if other is an int or float wrap it in a Value object so we can perform operation
         out = Value(self.data * other.data, (self, other), '*')
         
         def _backward():

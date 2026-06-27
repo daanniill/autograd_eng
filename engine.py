@@ -42,8 +42,21 @@ class Value:
         
         return out
 
+    # defining taking the power of Value objects
+    def __pow__(self, other):
+        assert isinstance(other, (int, float)) # only supports int/float powers for now
+        out = Value(self.data**other, (self,), f'**{other}')
+
+        def _backward():
+            self.grad += other * self.data**(other - 1) * out.grad
+
+        return out
+
     def __rmul__(self, other): # other * self swaps order of operands if operation fails initially with __mul__
         return self * other
+
+    def __truediv__(self, other): # self / other
+        return self * other**-1
     
     # implementing tanh as acitvation function
     # reason why we are not breaking this down into smaller functions is because we don't need to.
@@ -60,6 +73,7 @@ class Value:
         
         return out
 
+    # defining exponentiation of Value objects
     def exp(self):
         x = self.data
         out = Value(math.exp(x), (self, ), 'exp')

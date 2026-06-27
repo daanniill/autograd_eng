@@ -27,6 +27,9 @@ class Value:
     
         return out
 
+    def __radd__(self, other): # other + self
+        return self + other
+
     # defining multiplication of Value objects
     def __mul__(self, other):
         other = other if isinstance(other, Value) else Value(other) # if other is an int or float wrap it in a Value object so we can perform operation
@@ -39,6 +42,9 @@ class Value:
         
         return out
 
+    def __rmul__(self, other): # other * self swaps order of operands if operation fails initially with __mul__
+        return self * other
+    
     # implementing tanh as acitvation function
     # reason why we are not breaking this down into smaller functions is because we don't need to.
     # all we need to do is be able to find the local derivative, then from there we can construct a global derivative
@@ -52,6 +58,16 @@ class Value:
             self.grad += (1 - t**2) * out.grad
         out._backward = _backward
         
+        return out
+
+    def exp(self):
+        x = self.data
+        out = Value(math.exp(x), (self, ), 'exp')
+
+        def _backward():
+            self.grad += out.data * out.grad
+        out._backward = _backward
+
         return out
 
     # automatically runs backpropogation starting from node on all children

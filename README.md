@@ -1,6 +1,6 @@
-# micrograd
+# autograd_engine: automatic backpropogation
 
-A from-scratch autograd engine and neural network library, inspired by [Andrej Karpathy's micrograd](https://github.com/karpathy/micrograd). Built to understand backpropagation by implementing it at the level of individual scalar operations.
+Built to understand backpropagation by implementing it at the level of individual scalar operations.
 
 ## What's implemented
 
@@ -23,4 +23,4 @@ notes/       # handwritten/derivation notes
 
 ## Notes
 
-📄 [**notes/Micrograd.pdf**](notes/Micrograd.pdf) — derivations and notes worked through while building this (chain rule, gradient derivations for each op, line search). Click to open — GitHub renders PDFs in-browser, no download needed.
+📄 [**notes/autograd_notes.pdf**](notes/autograd_notes.pdf) — derivations and notes worked through while building this (chain rule, gradient derivations for each op, line search).
